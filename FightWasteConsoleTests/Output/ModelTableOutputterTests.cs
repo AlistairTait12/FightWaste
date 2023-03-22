@@ -21,7 +21,7 @@ namespace FightWasteConsoleTests.Output
 
             var expected = new StringBuilder();
             expected.AppendLine("| Name   | Quantity | Unit |");
-            expected.AppendLine("|--------|----------|------|");
+            expected.AppendLine("| ------ | -------- | ---- |");
             expected.AppendLine("| Apples | 1        | Of   |");
             expected.AppendLine("| Water  | 100      | Ml   |");
 
