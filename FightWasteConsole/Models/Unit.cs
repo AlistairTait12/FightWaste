@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace FightWasteConsole.Models;
 
-namespace FightWasteConsole.Models
+public enum Unit
 {
-    public enum Unit
-    {
-        Of,
-        G,
-        Ml
-    }
+    Of,
+    G,
+    Ml
 }

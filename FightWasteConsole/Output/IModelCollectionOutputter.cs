@@ -1,7 +1,6 @@
-﻿namespace FightWasteConsole.Output
+﻿namespace FightWasteConsole.Output;
+
+public interface IModelCollectionOutputter<T> where T : class
 {
-    public interface IModelCollectionOutputter<T> where T : class
-    {
-        string GetListAsCollection(List<T> models);
-    }
+    string GetListAsCollection(List<T> models);
 }
