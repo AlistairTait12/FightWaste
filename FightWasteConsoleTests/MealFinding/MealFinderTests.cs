@@ -9,6 +9,7 @@ namespace FightWasteConsoleTests.MealFinding;
 public class MealFinderTests
 {
     private IRepository<MealModel> _repository;
+    private IConsoleWrapper _consoleWrapper;
     private MealFinder _mealFinder;
 
     [SetUp]
@@ -17,7 +18,9 @@ public class MealFinderTests
         _repository = A.Fake<IRepository<MealModel>>();
         A.CallTo(() => _repository.GetAll()).Returns(GetFakeMeals());
 
-        _mealFinder = new MealFinder(_repository);
+        _consoleWrapper = A.Fake<IConsoleWrapper>();
+
+        _mealFinder = new MealFinder(_repository, _consoleWrapper);
     }
 
     [Test]
@@ -27,7 +30,23 @@ public class MealFinderTests
         var expected = new MealModel { Name = "Soup" };
 
         // Act
-        var actual = _mealFinder.FindMealByName("Soup");
+        A.CallTo(() => _consoleWrapper.Read()).Returns("Soup");
+        var actual = _mealFinder.FindMealByName();
+
+        // Assert
+        actual.Should().BeEquivalentTo(expected);
+    }
+
+    [Test]
+    public void FindMealByNameContinuesToAskUserToEnterMealWhenNotFound()
+    {
+        // Arrange
+        var expected = new MealModel { Name = "Pizza" };
+
+        // Act
+        A.CallTo(() => _consoleWrapper.Read()).Returns("Pizza");
+        A.CallTo(() => _consoleWrapper.Read()).ReturnsNextFromSequence("Pizz");
+        var actual = _mealFinder.FindMealByName();
 
         // Assert
         actual.Should().BeEquivalentTo(expected);

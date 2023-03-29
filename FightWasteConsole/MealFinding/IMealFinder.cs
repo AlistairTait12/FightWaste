@@ -4,5 +4,5 @@ namespace FightWasteConsole.MealFinding;
 
 public interface IMealFinder
 {
-    MealModel FindMealByName(string name);
+    MealModel FindMealByName();
 }
