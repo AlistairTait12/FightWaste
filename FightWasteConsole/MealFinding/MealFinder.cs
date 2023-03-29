@@ -14,6 +14,8 @@ public class MealFinder : IMealFinder
 
     public MealModel FindMealByName(string name)
     {
-        throw new NotImplementedException();
+        var meal = _repository.GetAll().FirstOrDefault(meal => meal.Name == name);
+
+        return meal;
     }
 }
