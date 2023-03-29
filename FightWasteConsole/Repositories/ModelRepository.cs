@@ -13,6 +13,6 @@ public class ModelRepository<IModel> : IRepository<IModel>
 
     public IEnumerable<IModel> GetAll()
     {
-        throw new NotImplementedException();
+        return _dataAccess.GetData();
     }
 }
