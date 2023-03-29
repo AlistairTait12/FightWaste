@@ -1,0 +1,18 @@
+[
+  {
+    "Id": 1,
+    "Name": "Test Meal",
+    "Ingredients": [
+      {
+        "Name": "Mushrooms",
+        "Quantity": 50,
+        "Unit": 1
+      },
+      {
+        "Name": "Watermelon",
+        "Quantity": 1,
+        "Unit": 0
+      }
+    ]
+  }
+]
