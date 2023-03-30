@@ -1,4 +1,5 @@
-﻿using FightWasteConsole.MealFinding;
+﻿using FightWasteConsole.Aggregation;
+using FightWasteConsole.MealFinding;
 using FightWasteConsole.Models;
 using FightWasteConsole.Output;
 using FightWasteConsole.Repositories;
@@ -10,33 +11,33 @@ public class IngredientsListProcessor
     private readonly IRepository<MealModel> _mealRepository;
     private readonly IModelCollectionOutputter<IngredientQuantityModel> _modelCollectionOutputter;
     private readonly IMealFinder _mealFinder;
+    private readonly IIngredientAggregator _ingredientAggregator;
 
     public IngredientsListProcessor(IRepository<MealModel> mealRepository,
         IModelCollectionOutputter<IngredientQuantityModel> modelCollectionOutputter,
-        IMealFinder mealFinder)
+        IMealFinder mealFinder,
+        IIngredientAggregator ingredientAggregator)
     {
         _mealRepository = mealRepository;
         _modelCollectionOutputter = modelCollectionOutputter;
         _mealFinder = mealFinder;
+        _ingredientAggregator = ingredientAggregator;
     }
 
     public void GetIngredientsList()
     {
-        // TODO: Declare empty mealModel list
         var allMeals = new List<MealModel>();
 
-        // TODO: Ask the user to enter a meal with a MealFinder.FindMeal(userInput);
         // HACK: Ask 7 times for now, implement way of user breaking out in future
         for (int i = 0; i < 7; i++)
         {
             allMeals.Add(_mealFinder.FindMealByName());
         }
 
-        // TODO: Smush together ingredient quantities with an ingredient
-        //       quantity aggregator
+        var allIngredients = allMeals.SelectMany(meal => meal.Ingredients);
+        var combinedIngredients = _ingredientAggregator.CombineIngredients(allIngredients);
+        var output = _modelCollectionOutputter.GetListAsCollection(combinedIngredients.ToList());
 
-        // TODO: Sort the list alphabetically by ingredient
-
-        // TODO: Feed the aggregated list into IModelCollectionOutputter
+        Console.Write(output);
     }
 }
