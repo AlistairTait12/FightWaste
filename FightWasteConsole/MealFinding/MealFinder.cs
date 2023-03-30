@@ -1,6 +1,5 @@
 ﻿using FightWasteConsole.Models;
 using FightWasteConsole.Repositories;
-using System.ComponentModel.DataAnnotations;
 
 namespace FightWasteConsole.MealFinding;
 
@@ -17,6 +16,19 @@ public class MealFinder : IMealFinder
 
     public MealModel FindMealByName()
     {
-        throw new NotImplementedException();
+        var mealFound = false;
+        var meal = new MealModel();
+
+        while (!mealFound)
+        {
+            var mealToFind = _consoleWrapper.Read();
+            meal = _repository
+                .GetAll()
+                .FirstOrDefault(m => m.Name == mealToFind);
+
+            mealFound = meal != null;
+        }
+
+        return meal;
     }
 }

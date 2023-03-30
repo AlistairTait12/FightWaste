@@ -50,6 +50,7 @@ public class MealFinderTests
 
         // Assert
         actual.Should().BeEquivalentTo(expected);
+        A.CallTo(() => _consoleWrapper.Read()).MustHaveHappenedTwiceExactly();
     }
 
     private IEnumerable<MealModel> GetFakeMeals() => new List<MealModel>
