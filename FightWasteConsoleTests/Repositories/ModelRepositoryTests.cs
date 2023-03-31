@@ -1,5 +1,4 @@
-﻿using FakeItEasy;
-using FightWasteConsole.DataAccess;
+﻿using FightWasteConsole.DataAccess;
 using FightWasteConsole.Models;
 using FightWasteConsole.Repositories;
 
