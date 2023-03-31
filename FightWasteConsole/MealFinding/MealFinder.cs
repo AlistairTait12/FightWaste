@@ -29,11 +29,11 @@ public class MealFinder : IMealFinder
             mealFound = meal != null;
             if (!mealFound)
             {
-                _consoleWrapper.Write($"Meal '{mealToFind}' not found, please enter another meal");
+                _consoleWrapper.Warn($"Meal '{mealToFind}' not found, please enter another meal");
             }
         }
 
-        _consoleWrapper.Write($"Meal '{meal.Name}' added");
+        _consoleWrapper.Confirm($"Meal '{meal.Name}' added");
         return meal;
     }
 }
