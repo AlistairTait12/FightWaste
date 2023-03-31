@@ -7,7 +7,7 @@ public class JsonDataAccess<IModel> : IDataAccess<IModel>
 {
     private readonly string _filePath;
 
-    // HACK: This should eventually be replaceed by real database access
+    // HACK: This should eventually be replaced by real database access
     public JsonDataAccess(string filePath)
     {
         _filePath = filePath;

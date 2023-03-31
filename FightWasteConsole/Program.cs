@@ -7,7 +7,8 @@ using FightWasteConsole.Output;
 using FightWasteConsole.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
-var filePath = "";
+// HACK: Get this in an appsettings file
+var filePath = "C:\\Source\\FightWaste\\Meals.json";
 
 var serviceCollection = new ServiceCollection();
 
