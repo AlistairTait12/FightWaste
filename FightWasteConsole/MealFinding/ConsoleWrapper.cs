@@ -12,4 +12,18 @@ public class ConsoleWrapper : IConsoleWrapper
     {
         Console.WriteLine(message);
     }
+
+    public void Confirm(string message)
+    {
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine(message);
+        Console.ResetColor();
+    }
+
+    public void Warn(string message)
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine(message);
+        Console.ResetColor();
+    }
 }

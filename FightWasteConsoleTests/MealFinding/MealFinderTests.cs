@@ -35,7 +35,7 @@ public class MealFinderTests
 
         // Assert
         actual.Should().BeEquivalentTo(expected);
-        A.CallTo(() => _consoleWrapper.Write("Meal 'Soup' added")).MustHaveHappenedOnceExactly();
+        A.CallTo(() => _consoleWrapper.Confirm("Meal 'Soup' added")).MustHaveHappenedOnceExactly();
     }
 
     [Test]
@@ -52,8 +52,8 @@ public class MealFinderTests
         // Assert
         actual.Should().BeEquivalentTo(expected);
         A.CallTo(() => _consoleWrapper.Read()).MustHaveHappenedTwiceExactly();
-        A.CallTo(() => _consoleWrapper.Write("Meal 'Pizz' not found, please enter another meal")).MustHaveHappenedOnceExactly();
-        A.CallTo(() => _consoleWrapper.Write("Meal 'Pizza' added")).MustHaveHappenedOnceExactly();
+        A.CallTo(() => _consoleWrapper.Warn("Meal 'Pizz' not found, please enter another meal")).MustHaveHappenedOnceExactly();
+        A.CallTo(() => _consoleWrapper.Confirm("Meal 'Pizza' added")).MustHaveHappenedOnceExactly();
     }
 
     private IEnumerable<MealModel> GetFakeMeals() => new List<MealModel>
