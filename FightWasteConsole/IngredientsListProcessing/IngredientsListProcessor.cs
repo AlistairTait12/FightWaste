@@ -6,7 +6,7 @@ using FightWasteConsole.Repositories;
 
 namespace FightWasteConsole.IngredientsListProcessing;
 
-public class IngredientsListProcessor
+public class IngredientsListProcessor : IIngredientsListProcessor
 {
     private readonly IRepository<MealModel> _mealRepository;
     private readonly IModelCollectionOutputter<IngredientQuantityModel> _modelCollectionOutputter;
@@ -24,7 +24,7 @@ public class IngredientsListProcessor
         _ingredientAggregator = ingredientAggregator;
     }
 
-    public void GetIngredientsList()
+    public void ProduceIngredientsList()
     {
         var allMeals = new List<MealModel>();
 
