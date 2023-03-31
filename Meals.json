@@ -1,0 +1,164 @@
+[
+  {
+    "Id": 1,
+    "Name": "Omelette",
+    "Ingredients": [
+      {
+        "Name": "Egg",
+        "Quantity": 3,
+        "Unit": 0
+      },
+      {
+        "Name": "Mushroom",
+        "Quantity": 50,
+        "Unit": 1
+      },
+      {
+        "Name": "Ham",
+        "Quantity": 50,
+        "Unit": 1
+      },
+      {
+        "Name": "Cheese",
+        "Quantity": 30,
+        "Unit": 1
+      }
+    ]
+  },
+  {
+    "Id": 2,
+    "Name": "Curry",
+    "Ingredients": [
+      {
+        "Name": "Chicken",
+        "Quantity": 300,
+        "Unit": 1
+      },
+      {
+        "Name": "Curry Sauce",
+        "Quantity": 250,
+        "Unit": 2
+      },
+      {
+        "Name": "Rice",
+        "Quantity": 200,
+        "Unit": 1
+      }
+    ]
+  },
+  {
+    "Id": 3,
+    "Name": "Fritatta",
+    "Ingredients": [
+      {
+        "Name": "Egg",
+        "Quantity": 6,
+        "Unit": 0
+      },
+      {
+        "Name": "Potato",
+        "Quantity": 100,
+        "Unit": 1
+      },
+      {
+        "Name": "Sausage",
+        "Quantity": 200,
+        "Unit": 1
+      }
+    ]
+  },
+  {
+    "Id": 4,
+    "Name": "Spaghetti Bolognese",
+    "Ingredients": [
+      {
+        "Name": "Mince",
+        "Quantity": 500,
+        "Unit": 1
+      },
+      {
+        "Name": "Onion",
+        "Quantity": 50,
+        "Unit": 1
+      },
+      {
+        "Name": "Passata",
+        "Quantity": 200,
+        "Unit": 2
+      },
+      {
+        "Name": "Pasta",
+        "Quantity": 200,
+        "Unit": 1
+      }
+    ]
+  },
+  {
+    "Id": 5,
+    "Name": "Ham Sandwich",
+    "Ingredients": [
+      {
+        "Name": "Ham",
+        "Quantity": 20,
+        "Unit": 1
+      },
+      {
+        "Name": "Bread",
+        "Quantity": 2,
+        "Unit": 0
+      }
+    ]
+  },
+  {
+    "Id": 6,
+    "Name": "Bean Chilli",
+    "Ingredients": [
+      {
+        "Name": "Mixed beans",
+        "Quantity": 400,
+        "Unit": 1
+      },
+      {
+        "Name": "Baked beans",
+        "Quantity": 400,
+        "Unit": 1
+      },
+      {
+        "Name": "Chopped tomatoes",
+        "Quantity": 400,
+        "Unit": 1
+      },
+      {
+        "Name": "Rice",
+        "Quantity": 200,
+        "Unit": 1
+      }
+    ]
+  },
+  {
+    "Id": 7,
+    "Name": "Fish, potatoes and prawns",
+    "Ingredients": [
+      {
+        "Name": "Fish",
+        "Quantity": 200,
+        "Unit": 1
+      },
+      {
+        "Name": "Potato",
+        "Quantity": 400,
+        "Unit": 1
+      },
+      {
+        "Name": "Prawns",
+        "Quantity": 150,
+        "Unit": 1
+      },
+      {
+        "Name": "Peas",
+        "Quantity": 100,
+        "Unit": 1
+      }
+    ]
+  }
+]

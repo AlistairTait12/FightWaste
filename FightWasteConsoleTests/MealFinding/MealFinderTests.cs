@@ -24,7 +24,7 @@ public class MealFinderTests
     }
 
     [Test]
-    public void FindMealByNameReturnsMealWhenItExistsInRepository()
+    public void FindMealByNameReturnsMealWhenItExistsInRepositoryAndConfirmsToUser()
     {
         // Arrange
         var expected = new MealModel { Name = "Soup" };
@@ -35,10 +35,11 @@ public class MealFinderTests
 
         // Assert
         actual.Should().BeEquivalentTo(expected);
+        A.CallTo(() => _consoleWrapper.Confirm("Meal 'Soup' added")).MustHaveHappenedOnceExactly();
     }
 
     [Test]
-    public void FindMealByNameContinuesToAskUserToEnterMealWhenNotFound()
+    public void FindMealByNameContinuesToAskUserToEnterMealWhenNotFoundAndDisplaysMealNotFound()
     {
         // Arrange
         var expected = new MealModel { Name = "Pizza" };
@@ -51,6 +52,8 @@ public class MealFinderTests
         // Assert
         actual.Should().BeEquivalentTo(expected);
         A.CallTo(() => _consoleWrapper.Read()).MustHaveHappenedTwiceExactly();
+        A.CallTo(() => _consoleWrapper.Warn("Meal 'Pizz' not found, please enter another meal")).MustHaveHappenedOnceExactly();
+        A.CallTo(() => _consoleWrapper.Confirm("Meal 'Pizza' added")).MustHaveHappenedOnceExactly();
     }
 
     private IEnumerable<MealModel> GetFakeMeals() => new List<MealModel>
