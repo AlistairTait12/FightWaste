@@ -1,4 +1,5 @@
 ﻿using FightWasteConsole.Aggregation;
+using FightWasteConsole.FileWriter;
 using FightWasteConsole.IngredientsListProcessing;
 using FightWasteConsole.MealFinding;
 using FightWasteConsole.Models;
@@ -13,6 +14,7 @@ public class IngredientsListProcessorTests
     private IMealFinder _mealFinder;
     private IIngredientAggregator _aggregator;
     private IConsoleWrapper _consoleWrapper;
+    private IFileWriter _writer;
 
     [SetUp]
     public void SetUp()
@@ -21,13 +23,15 @@ public class IngredientsListProcessorTests
         _mealFinder = A.Fake<IMealFinder>();
         _aggregator = A.Fake<IIngredientAggregator>();
         _consoleWrapper = A.Fake<IConsoleWrapper>();
+        _writer = A.Fake<IFileWriter>();
     }
 
     [Test]
     public void ProduceIngredientsListMakesAllTheRightCalls()
     {
         // Arrange
-        var processor = new IngredientsListProcessor(_outputter, _mealFinder, _aggregator, _consoleWrapper);
+        var processor = new IngredientsListProcessor(_outputter, _mealFinder,
+            _aggregator, _consoleWrapper, _writer);
 
         // Act
         processor.ProduceIngredientsList();
@@ -37,5 +41,6 @@ public class IngredientsListProcessorTests
         A.CallTo(() => _mealFinder.FindMealByName()).MustHaveHappened();
         A.CallTo(() => _aggregator.CombineIngredients(A<IEnumerable<IngredientQuantityModel>>.Ignored)).MustHaveHappenedOnceExactly();
         A.CallTo(() => _outputter.GetListAsCollection(A<List<IngredientQuantityModel>>.Ignored)).MustHaveHappenedOnceExactly();
+        A.CallTo(() => _writer.WriteIngredientsToFile(A<IEnumerable<IngredientQuantityModel>>.Ignored)).MustHaveHappenedOnceExactly();
     }
 }
