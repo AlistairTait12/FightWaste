@@ -27,8 +27,13 @@ public class MealFinder : IMealFinder
                 .FirstOrDefault(m => m.Name == mealToFind);
 
             mealFound = meal != null;
+            if (!mealFound)
+            {
+                _consoleWrapper.Write($"Meal '{mealToFind}' not found, please enter another meal");
+            }
         }
 
+        _consoleWrapper.Write($"Meal '{meal.Name}' added");
         return meal;
     }
 }
