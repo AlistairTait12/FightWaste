@@ -1,27 +1,31 @@
 ﻿using FightWasteConsole.Aggregation;
+using FightWasteConsole.FileWriter;
 using FightWasteConsole.MealFinding;
 using FightWasteConsole.Models;
 using FightWasteConsole.Output;
-using FightWasteConsole.Repositories;
 
 namespace FightWasteConsole.IngredientsListProcessing;
 
 public class IngredientsListProcessor : IIngredientsListProcessor
 {
-    private readonly IRepository<MealModel> _mealRepository;
     private readonly IModelCollectionOutputter<IngredientQuantityModel> _modelCollectionOutputter;
     private readonly IMealFinder _mealFinder;
     private readonly IIngredientAggregator _ingredientAggregator;
+    private readonly IConsoleWrapper _consoleWrapper;
+    private readonly IFileWriter _writer;
 
-    public IngredientsListProcessor(IRepository<MealModel> mealRepository,
+    public IngredientsListProcessor(
         IModelCollectionOutputter<IngredientQuantityModel> modelCollectionOutputter,
         IMealFinder mealFinder,
-        IIngredientAggregator ingredientAggregator)
+        IIngredientAggregator ingredientAggregator,
+        IConsoleWrapper consoleWrapper,
+        IFileWriter writer)
     {
-        _mealRepository = mealRepository;
         _modelCollectionOutputter = modelCollectionOutputter;
         _mealFinder = mealFinder;
         _ingredientAggregator = ingredientAggregator;
+        _consoleWrapper = consoleWrapper;
+        _writer = writer;
     }
 
     public void ProduceIngredientsList()
@@ -29,7 +33,7 @@ public class IngredientsListProcessor : IIngredientsListProcessor
         var allMeals = new List<MealModel>();
 
         // HACK: Ask 7 times for now, implement way of user breaking out in future
-        Console.WriteLine("Please enter your meals for the week");
+        _consoleWrapper.Write("Please enter your meals for the week");
         for (int i = 0; i < 7; i++)
         {
             allMeals.Add(_mealFinder.FindMealByName());
@@ -40,5 +44,6 @@ public class IngredientsListProcessor : IIngredientsListProcessor
         var output = _modelCollectionOutputter.GetListAsCollection(combinedIngredients.ToList());
 
         Console.Write(output);
+        _writer.WriteIngredientsToFile(combinedIngredients);
     }
 }

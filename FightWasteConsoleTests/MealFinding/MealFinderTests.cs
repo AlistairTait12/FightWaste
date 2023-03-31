@@ -1,5 +1,4 @@
-﻿using FakeItEasy;
-using FightWasteConsole.MealFinding;
+﻿using FightWasteConsole.MealFinding;
 using FightWasteConsole.Models;
 using FightWasteConsole.Repositories;
 
