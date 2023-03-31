@@ -29,6 +29,7 @@ public class IngredientsListProcessor : IIngredientsListProcessor
         var allMeals = new List<MealModel>();
 
         // HACK: Ask 7 times for now, implement way of user breaking out in future
+        Console.WriteLine("Please enter your meals for the week");
         for (int i = 0; i < 7; i++)
         {
             allMeals.Add(_mealFinder.FindMealByName());
