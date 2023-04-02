@@ -3,7 +3,8 @@ using FightWasteConsole.Models;
 
 namespace FightWasteConsole.Repositories;
 
-public class MealRepository : ModelRepository<MealModel>, IRepository<MealModel>
+public class MealRepository : ModelRepository<MealModel>,
+    IRepository<MealModel>, IMealRepository
 {
     public MealRepository(IDataAccess<MealModel> dataAccess) : base(dataAccess)
     {
