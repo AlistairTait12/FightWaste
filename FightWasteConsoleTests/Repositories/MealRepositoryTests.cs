@@ -42,6 +42,16 @@ public class MealRepositoryTests
         actual.Should().BeEquivalentTo(expected);
     }
 
+    [Test]
+    public void GetMealByNameReturnsNullWhenMealNotInDataBase()
+    {
+        // Act
+        var actual = _mealRepository.GetMealByName("Noneggsistent Meal");
+
+        // Assert
+        actual.Should().BeNull();
+    }
+
     private IEnumerable<MealModel> GetFakeMealData() => new List<MealModel>
     {
         new()

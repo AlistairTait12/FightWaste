@@ -10,7 +10,5 @@ public class MealRepository : ModelRepository<MealModel>, IRepository<MealModel>
     }
 
     public MealModel GetMealByName(string name)
-    {
-        throw new NotImplementedException();
-    }
+        => _dataAccess.GetData().FirstOrDefault(model => model.Name == name)!;
 }
