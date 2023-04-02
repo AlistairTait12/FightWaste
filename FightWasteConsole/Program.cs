@@ -1,8 +1,8 @@
 ﻿using FightWasteConsole.Aggregation;
+using FightWasteConsole.ConsoleWrapper;
 using FightWasteConsole.DataAccess;
 using FightWasteConsole.FileWriter;
 using FightWasteConsole.IngredientsListProcessing;
-using FightWasteConsole.MealFinding;
 using FightWasteConsole.Models;
 using FightWasteConsole.Output;
 using FightWasteConsole.Repositories;
@@ -22,7 +22,6 @@ serviceCollection
     })
     .AddTransient<IIngredientsListProcessor, IngredientsListProcessor>()
     .AddTransient<IConsoleWrapper, ConsoleWrapper>()
-    .AddTransient<IMealFinder, MealFinder>()
     .AddTransient<IModelCollectionOutputter<IngredientQuantityModel>, ModelTableOutputter<IngredientQuantityModel>>()
     .AddTransient<IRepository<MealModel>, ModelRepository<MealModel>>()
     .AddTransient<IFileWriter>(services =>

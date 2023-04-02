@@ -1,6 +1,6 @@
 ﻿using FightWasteConsole.Aggregation;
+using FightWasteConsole.ConsoleWrapper;
 using FightWasteConsole.FileWriter;
-using FightWasteConsole.MealFinding;
 using FightWasteConsole.Models;
 using FightWasteConsole.Output;
 
@@ -9,20 +9,17 @@ namespace FightWasteConsole.IngredientsListProcessing;
 public class IngredientsListProcessor : IIngredientsListProcessor
 {
     private readonly IModelCollectionOutputter<IngredientQuantityModel> _modelCollectionOutputter;
-    private readonly IMealFinder _mealFinder;
     private readonly IIngredientAggregator _ingredientAggregator;
     private readonly IConsoleWrapper _consoleWrapper;
     private readonly IFileWriter _writer;
 
     public IngredientsListProcessor(
         IModelCollectionOutputter<IngredientQuantityModel> modelCollectionOutputter,
-        IMealFinder mealFinder,
         IIngredientAggregator ingredientAggregator,
         IConsoleWrapper consoleWrapper,
         IFileWriter writer)
     {
         _modelCollectionOutputter = modelCollectionOutputter;
-        _mealFinder = mealFinder;
         _ingredientAggregator = ingredientAggregator;
         _consoleWrapper = consoleWrapper;
         _writer = writer;
@@ -36,7 +33,6 @@ public class IngredientsListProcessor : IIngredientsListProcessor
         _consoleWrapper.Write("Please enter your meals for the week");
         for (int i = 0; i < 7; i++)
         {
-            allMeals.Add(_mealFinder.FindMealByName());
         }
 
         var allIngredients = allMeals.SelectMany(meal => meal.Ingredients);

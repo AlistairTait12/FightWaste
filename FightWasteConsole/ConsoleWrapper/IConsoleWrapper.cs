@@ -1,4 +1,4 @@
-﻿namespace FightWasteConsole.MealFinding;
+﻿namespace FightWasteConsole.ConsoleWrapper;
 
 public interface IConsoleWrapper
 {
