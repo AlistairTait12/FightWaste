@@ -4,6 +4,7 @@ using FightWasteConsole.FileWriter;
 using FightWasteConsole.IngredientsListProcessing;
 using FightWasteConsole.Models;
 using FightWasteConsole.Output;
+using FightWasteConsole.Repositories;
 
 namespace FightWasteConsoleTests.IngredientsListProcessing;
 
@@ -14,6 +15,7 @@ public class IngredientsListProcessorTests
     private IIngredientAggregator _aggregator;
     private IConsoleWrapper _consoleWrapper;
     private IFileWriter _writer;
+    private IMealRepository _mealRepository;
 
     [SetUp]
     public void SetUp()
@@ -22,6 +24,7 @@ public class IngredientsListProcessorTests
         _aggregator = A.Fake<IIngredientAggregator>();
         _consoleWrapper = A.Fake<IConsoleWrapper>();
         _writer = A.Fake<IFileWriter>();
+        _mealRepository = A.Fake<IMealRepository>();
     }
 
     [Test]
@@ -29,7 +32,9 @@ public class IngredientsListProcessorTests
     {
         // Arrange
         var processor = new IngredientsListProcessor(_outputter,
-            _aggregator, _consoleWrapper, _writer);
+            _aggregator, _consoleWrapper, _writer, _mealRepository);
+
+        A.CallTo(() => _consoleWrapper.Read()).Returns("END");
 
         // Act
         processor.ProduceIngredientsList();
