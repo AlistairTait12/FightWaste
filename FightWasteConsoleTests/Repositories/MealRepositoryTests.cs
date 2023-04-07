@@ -52,6 +52,43 @@ public class MealRepositoryTests
         actual.Should().BeNull();
     }
 
+    [TestCase("Average omelette")]
+    [TestCase("aVeRaGe OmElEtTe")]
+    [TestCase("AVERAGE omelette")]
+    public void GetMealByNameFindsMealWhenGivenStringsOfVariedCasing(string mealToFind)
+    {
+        // Arrange
+        var expected = new MealModel
+        {
+            Id = 2,
+            Name = "Average Omelette",
+            Ingredients = new()
+            {
+                new() { Name = "Egg", Quantity = 3, Unit = Unit.Of },
+                new() { Name = "Ham", Quantity = 30, Unit = Unit.G },
+                new() { Name = "Cheese", Quantity = 30, Unit = Unit.G }
+            }
+        };
+
+        // Act
+        var actual = _mealRepository.GetMealByName(mealToFind);
+
+        // Assert
+        actual.Should().BeEquivalentTo(expected);
+    }
+
+    [TestCase("Average Omelette.")]
+    [TestCase("AverageOmelette")]
+    [TestCase("averageomelette")]
+    public void GetMealByNameReturnsNullWhenGivenStringsOfVariedPunctuation(string mealToFind)
+    {
+        // Act
+        var actual = _mealRepository.GetMealByName(mealToFind);
+
+        // Assert
+        actual.Should().BeNull();
+    }
+
     private IEnumerable<MealModel> GetFakeMealData() => new List<MealModel>
     {
         new()
