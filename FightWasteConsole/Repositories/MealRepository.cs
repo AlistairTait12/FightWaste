@@ -11,5 +11,6 @@ public class MealRepository : ModelRepository<MealModel>,
     }
 
     public MealModel GetMealByName(string name)
-        => _dataAccess.GetData().FirstOrDefault(model => model.Name == name)!;
+        => _dataAccess.GetData()
+        .FirstOrDefault(model => string.Equals(model.Name, name, StringComparison.InvariantCultureIgnoreCase))!;
 }
