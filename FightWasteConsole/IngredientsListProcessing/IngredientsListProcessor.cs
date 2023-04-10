@@ -41,7 +41,8 @@ public class IngredientsListProcessor : IIngredientsListProcessor
             var userResponse = _consoleWrapper.Read();
             var mealToAdd = _repository.GetMealByName(userResponse);
 
-            if(userResponse == "END")
+            // TODO: Cover case insensitivity of `end` in a unit test
+            if(string.Equals("End", userResponse, StringComparison.InvariantCultureIgnoreCase))
             {
                 _consoleWrapper.Write("Meal selection complete, compiling list of ingredients");
                 break;
