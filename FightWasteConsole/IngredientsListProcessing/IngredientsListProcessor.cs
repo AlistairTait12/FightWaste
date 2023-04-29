@@ -39,13 +39,22 @@ public class IngredientsListProcessor : IIngredientsListProcessor
         while (!userFinished)
         {
             var userResponse = _consoleWrapper.Read();
-            var mealToAdd = _repository.GetMealByName(userResponse);
 
-            if(userResponse == "END")
+            // TODO: Cover case insensitivity of `end` in a unit test
+            if(string.Equals("End", userResponse, StringComparison.InvariantCultureIgnoreCase))
             {
                 _consoleWrapper.Write("Meal selection complete, compiling list of ingredients");
                 break;
             }
+
+            if (string.Equals("showall", userResponse, StringComparison.InvariantCultureIgnoreCase))
+            {
+                var meals = string.Join("\r\n", _repository.GetAll().Select(meal => meal.Name));
+                _consoleWrapper.Write(meals);
+                continue;
+            }
+
+            var mealToAdd = _repository.GetMealByName(userResponse);
 
             if (mealToAdd != null)
             {

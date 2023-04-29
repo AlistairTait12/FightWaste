@@ -2,7 +2,7 @@
 
 namespace FightWasteConsole.Repositories;
 
-public interface IMealRepository
+public interface IMealRepository : IRepository<MealModel>
 {
     MealModel GetMealByName(string name);
 }
