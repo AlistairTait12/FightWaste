@@ -1,17 +1,19 @@
 ﻿using FightWasteConsole.Models;
+using FightWasteConsole.Options;
 using FightWasteConsole.Output;
+using Microsoft.Extensions.Options;
 
 namespace FightWasteConsole.FileWriter;
 
 public class TableFileWriter : IFileWriter
 {
-    private readonly string _filePath;
+    private readonly string _outputPath;
     private readonly IModelCollectionOutputter<IngredientQuantityModel> _modelCollectionOutputter;
 
-    public TableFileWriter(string filePath,
+    public TableFileWriter(IOptions<FightWasteOptions> options,
         IModelCollectionOutputter<IngredientQuantityModel> modelCollectionOutputter)
     {
-        _filePath = filePath;
+        _outputPath = options.Value.ListOutputFolderPath;
         _modelCollectionOutputter = modelCollectionOutputter;
     }
 
@@ -20,11 +22,11 @@ public class TableFileWriter : IFileWriter
         var content = _modelCollectionOutputter.GetListAsCollection(ingredients.ToList());
 
         var uniqueName = DateTime.Now.ToString("yyyy MM dd HH mm ss");
-        var fileName = $"{_filePath}Ingredients_{uniqueName}.txt";
+        var fileName = $"{_outputPath}Ingredients_{uniqueName}.txt";
 
-        if (!Directory.Exists(_filePath))
+        if (!Directory.Exists(_outputPath))
         {
-            Directory.CreateDirectory(_filePath);
+            Directory.CreateDirectory(_outputPath);
         }
 
         File.Create(fileName).Dispose();

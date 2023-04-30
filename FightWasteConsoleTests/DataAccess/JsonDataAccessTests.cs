@@ -1,5 +1,7 @@
 ﻿using FightWasteConsole.DataAccess;
 using FightWasteConsole.Models;
+using FightWasteConsole.Options;
+using Microsoft.Extensions.Options;
 
 namespace FightWasteConsoleTests.DataAccess;
 
@@ -11,8 +13,12 @@ public class JsonDataAccessTests
     [SetUp]
     public void SetUp()
     {
-        _jsonDataAccess = new
-            ($"{AppDomain.CurrentDomain.SetupInformation.ApplicationBase}..\\..\\..\\DataAccess\\TestMealModels.json");
+        var fakeOptions = new FightWasteOptions()
+        {
+            MealFilePath = $@"{AppDomain.CurrentDomain.BaseDirectory}..\..\..\DataAccess\TestMealModels.json",
+        };
+
+        _jsonDataAccess = new (Options.Create(fakeOptions));
     }
 
     [Test]
