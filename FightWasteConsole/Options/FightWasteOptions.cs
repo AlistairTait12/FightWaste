@@ -2,5 +2,6 @@
 
 public class FightWasteOptions
 {
-    public string? MealFolderPath { get; set; }
+    public string? MealFilePath { get; set; }
+    public string? ListOutputFolderPath { get; set; }
 }

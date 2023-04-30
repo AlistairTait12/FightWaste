@@ -1,4 +1,5 @@
-﻿using FightWasteConsole.Aggregation;
+﻿using FightWasteConsole;
+using FightWasteConsole.Aggregation;
 using FightWasteConsole.ConsoleWrapper;
 using FightWasteConsole.DataAccess;
 using FightWasteConsole.FileWriter;
@@ -7,31 +8,20 @@ using FightWasteConsole.Models;
 using FightWasteConsole.Output;
 using FightWasteConsole.Repositories;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
-// HACK: Get this in an appsettings file
-var filePath = "C:\\Projects\\FightWaste\\Meals.json";
-var ingredientsPath = "C:\\Projects\\FightWaste\\Output\\Ingredients\\";
-
-var serviceCollection = new ServiceCollection();
-
-serviceCollection
-    .AddTransient<IIngredientAggregator, IngredientAggregator>()
-    .AddTransient<IDataAccess<MealModel>>(services =>
+IHost host = Host.CreateDefaultBuilder(args)
+    .ConfigureServices((hostContext, services) =>
     {
-        return new JsonDataAccess<MealModel>(filePath);
-    })
-    .AddTransient<IIngredientsListProcessor, IngredientsListProcessor>()
-    .AddTransient<IConsoleWrapper, ConsoleWrapper>()
-    .AddTransient<IModelCollectionOutputter<IngredientQuantityModel>, ModelTableOutputter<IngredientQuantityModel>>()
-    .AddTransient<IMealRepository, MealRepository>()
-    .AddTransient<IFileWriter>(services =>
-    {
-        // TODO, using IOptions would allow avoidance of newing up ModelTableOutputter in here
-        return new TableFileWriter(ingredientsPath, new ModelTableOutputter<IngredientQuantityModel>());
-    });
+        services.AddHostedService<FightWasteHost>();
+        services.AddTransient<IIngredientsListProcessor, IngredientsListProcessor>()
+            .AddTransient<IConsoleWrapper, ConsoleWrapper>()
+            .AddTransient<IModelCollectionOutputter<IngredientQuantityModel>, ModelTableOutputter<IngredientQuantityModel>>()
+            .AddTransient<IMealRepository, MealRepository>()
+            .AddTransient<IFileWriter, TableFileWriter>()
+            .AddTransient<IIngredientAggregator, IngredientAggregator>()
+            .AddTransient<IDataAccess<MealModel>, JsonDataAccess<MealModel>>();
 
-var processor = serviceCollection
-    .BuildServiceProvider()
-    .GetRequiredService<IIngredientsListProcessor>();
+    }).Build();
 
-processor.ProduceIngredientsList();
+host.Run();

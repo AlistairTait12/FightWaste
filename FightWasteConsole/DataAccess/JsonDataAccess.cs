@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿using FightWasteConsole.Options;
+using Microsoft.Extensions.Options;
+using System.Text.Json;
 
 namespace FightWasteConsole.DataAccess;
 
@@ -7,9 +9,9 @@ public class JsonDataAccess<IModel> : IDataAccess<IModel>
     private readonly string _filePath;
 
     // HACK: This should eventually be replaced by real database access
-    public JsonDataAccess(string filePath)
+    public JsonDataAccess(IOptions<FightWasteOptions> options)
     {
-        _filePath = filePath;
+        _filePath = options.Value.MealFilePath;
     }
 
     public IEnumerable<IModel> GetData()
