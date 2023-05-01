@@ -17,6 +17,7 @@ IHost host = Host.CreateDefaultBuilder(args)
     {
         configuration.Sources.Clear();
         IHostEnvironment env = hostContext.HostingEnvironment;
+        // TODO: Need to get this environment name as development in csproj
         configuration.AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, true);
     })
     .ConfigureServices((hostContext, services) =>
