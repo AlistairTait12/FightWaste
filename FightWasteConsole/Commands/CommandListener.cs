@@ -15,6 +15,25 @@ public class CommandListener : ICommandListener
 
     public void Listen()
     {
-        throw new NotImplementedException();
+        var commandName = _consoleWrapper.Read();
+
+        while (!string.Equals(commandName, "end",
+            StringComparison.InvariantCultureIgnoreCase))
+        {
+            var selectedCommand = _commands.FirstOrDefault(command => command.Aliases
+                .Select(alias => alias.ToLower())
+                .Contains(commandName.ToLower()));
+
+            if (selectedCommand != null)
+            {
+                selectedCommand.Execute();
+            }
+            else
+            {
+                _consoleWrapper.Warn($"command `{commandName}` not found");
+            }
+
+            commandName = _consoleWrapper.Read();
+        }
     }
 }

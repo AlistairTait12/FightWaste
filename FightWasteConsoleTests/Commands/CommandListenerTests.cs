@@ -27,12 +27,12 @@ public class CommandListenerTests
         _commands.Add(_fakeCommand);
     }
 
-    // TODO Listening for a command that does exist
     [Test]
     public void ListenWhenCommandExistsExecutesCommandAndListensAgain()
     {
         // Arrange
-        A.CallTo(() => _consoleWrapper.Read()).Returns("fake");
+        A.CallTo(() => _consoleWrapper.Read()).Returns("end");
+        A.CallTo(() => _consoleWrapper.Read()).ReturnsNextFromSequence("fake");
 
         // Act
         _commandListener.Listen();
@@ -42,19 +42,19 @@ public class CommandListenerTests
         A.CallTo(() => _consoleWrapper.Read()).MustHaveHappenedTwiceExactly();
     }
 
-    // TODO Listening for a command that does not exist
     [Test]
     public void ListenWhenCommandDoesNotExistDoesNotExecuteInformsUserAndListensAgain()
     {
         // Arrange
-        A.CallTo(() => _consoleWrapper.Read()).Returns("lawrence");
+        A.CallTo(() => _consoleWrapper.Read()).Returns("end");
+        A.CallTo(() => _consoleWrapper.Read()).ReturnsNextFromSequence("lawrence");
 
         // Act
         _commandListener.Listen();
 
         // Assert
         A.CallTo(() => _fakeCommand.Execute()).MustNotHaveHappened();
-        A.CallTo(() => _consoleWrapper.Warn("command not found")).MustHaveHappenedOnceExactly();
+        A.CallTo(() => _consoleWrapper.Warn("command `lawrence` not found")).MustHaveHappenedOnceExactly();
         A.CallTo(() => _consoleWrapper.Read()).MustHaveHappenedTwiceExactly();
     }
 }
