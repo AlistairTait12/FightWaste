@@ -5,10 +5,11 @@ using FightWasteConsole.IngredientsListProcessing;
 using FightWasteConsole.Models;
 using FightWasteConsole.Output;
 using FightWasteConsole.Repositories;
-using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FightWasteConsoleTests.IngredientsListProcessing;
 
+[ExcludeFromCodeCoverage]
 [TestFixture]
 public class IngredientsListProcessorTests
 {

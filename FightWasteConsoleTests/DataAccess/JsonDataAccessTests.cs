@@ -2,9 +2,11 @@
 using FightWasteConsole.Models;
 using FightWasteConsole.Options;
 using Microsoft.Extensions.Options;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FightWasteConsoleTests.DataAccess;
 
+[ExcludeFromCodeCoverage]
 [TestFixture]
 public class JsonDataAccessTests
 {
