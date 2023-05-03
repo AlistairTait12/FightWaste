@@ -1,7 +1,6 @@
 ﻿using FightWasteConsole.ConsoleWrapper;
-using FightWasteConsole.DataAccess;
-using FightWasteConsole.Models;
 using FightWasteConsole.Repositories;
+using System.Reflection.Emit;
 
 namespace FightWasteConsole.Commands;
 
@@ -16,10 +15,18 @@ public class ShowAllMealsCommand : ICommand
         _consoleWrapper = consoleWrapper;
     }
 
-    public IEnumerable<string> Aliases => throw new NotImplementedException();
+    public IEnumerable<string> Aliases => new List<string>
+    {
+        CommandStringConstants.SHOWALL,
+        CommandStringConstants.SHOWALLMEALS,
+        CommandStringConstants.SA
+    };
 
     public void Execute()
     {
-        throw new NotImplementedException();
+        _consoleWrapper.Write(GetOutput());
     }
+
+    private string GetOutput() => 
+        string.Join("\r\n", _mealRepository.GetAll().Select(meal => meal.Name));
 }

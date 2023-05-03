@@ -10,10 +10,6 @@ namespace FightWasteConsoleTests.Commands;
 [TestFixture]
 public class ShowAllMealsCommandTests
 {
-    // TODO: show all meals should call:
-    // _consoleWrapper.Write("...")
-    // _dataAccess.GetAll()
-
     private IMealRepository _mealRepository;
     private IConsoleWrapper _consoleWrapper;
     private ShowAllMealsCommand _command;
