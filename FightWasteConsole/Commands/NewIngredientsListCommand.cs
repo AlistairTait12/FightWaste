@@ -1,11 +1,25 @@
-﻿namespace FightWasteConsole.Commands;
+﻿using FightWasteConsole.IngredientsListProcessing;
+
+namespace FightWasteConsole.Commands;
 
 public class NewIngredientsListCommand : ICommand
 {
-    public IEnumerable<string> Aliases => throw new NotImplementedException();
+    private readonly IIngredientsListProcessor _processor;
+
+    public NewIngredientsListCommand(IIngredientsListProcessor processor)
+    {
+        _processor = processor;
+    }
+
+    public IEnumerable<string> Aliases => new List<string>
+    {
+        CommandStringConstants.NEWINGREDIENTSLIST,
+        CommandStringConstants.NEWLIST,
+        CommandStringConstants.NEW
+    };
 
     public void Execute()
     {
-        throw new NotImplementedException();
+        _processor.ProduceIngredientsList();
     }
 }

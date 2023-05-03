@@ -15,11 +15,9 @@ public class NewIngredientsListCommandTests
     public void SetUp()
     {
         _processor = A.Fake<IIngredientsListProcessor>();
-        _newIngredientsListCommand = new NewIngredientsListCommand();
+        _newIngredientsListCommand = new NewIngredientsListCommand(_processor);
     }
 
-    // TODO Test that a call to Fake IIngredientsListProcessor.ProduceIngredientsList()
-    // was called when correct command is called
     [Test]
     public void ExecuteCallsProduceIngredientsList()
     {
