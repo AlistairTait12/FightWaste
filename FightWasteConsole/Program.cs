@@ -1,5 +1,6 @@
 ﻿using FightWasteConsole;
 using FightWasteConsole.Aggregation;
+using FightWasteConsole.Commands;
 using FightWasteConsole.ConsoleWrapper;
 using FightWasteConsole.DataAccess;
 using FightWasteConsole.FileWriter;
@@ -32,7 +33,13 @@ IHost host = Host.CreateDefaultBuilder(args)
             .AddTransient<IMealRepository, MealRepository>()
             .AddTransient<IFileWriter, TableFileWriter>()
             .AddTransient<IIngredientAggregator, IngredientAggregator>()
-            .AddTransient<IDataAccess<MealModel>, JsonDataAccess<MealModel>>();
+            .AddTransient<IDataAccess<MealModel>, JsonDataAccess<MealModel>>()
+            .AddTransient<ICommandListener>(services =>
+            {
+                var container = new CommandContainer(services);
+                return new CommandListener(container.GetAllCommands(),
+                    services.GetRequiredService<IConsoleWrapper>());
+            });
     }).Build();
 
 host.Run();

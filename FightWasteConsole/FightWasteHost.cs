@@ -1,20 +1,20 @@
-﻿using FightWasteConsole.IngredientsListProcessing;
+﻿using FightWasteConsole.Commands;
 using Microsoft.Extensions.Hosting;
 
 namespace FightWasteConsole;
 
 public class FightWasteHost : IHostedService
 {
-    private IIngredientsListProcessor _processor;
+    private ICommandListener _commandListener;
 
-    public FightWasteHost(IIngredientsListProcessor processor)
+    public FightWasteHost(ICommandListener commandListener)
     {
-        _processor = processor;
+        _commandListener = commandListener;
     }
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        _processor.ProduceIngredientsList();
+        _commandListener.Listen();
 
         return Task.CompletedTask;
     }
