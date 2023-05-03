@@ -17,7 +17,7 @@ public class CommandListener : ICommandListener
     {
         var commandName = _consoleWrapper.Read();
 
-        while (!string.Equals(commandName, "end",
+        while (!string.Equals(commandName, "exit",
             StringComparison.InvariantCultureIgnoreCase))
         {
             var selectedCommand = _commands.FirstOrDefault(command => command.Aliases
