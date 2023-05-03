@@ -1,8 +1,10 @@
 ﻿using FightWasteConsole.Aggregation;
 using FightWasteConsole.Models;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FightWasteConsoleTests.Aggregation;
 
+[ExcludeFromCodeCoverage]
 [TestFixture]
 public class IngredientAggregatorTests
 {

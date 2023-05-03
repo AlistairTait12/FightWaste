@@ -1,6 +1,7 @@
 ﻿using FightWasteConsole.Options;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace FightWasteConsole.DataAccess;
 
@@ -16,10 +17,13 @@ public class JsonDataAccess<IModel> : IDataAccess<IModel>
 
     public IEnumerable<IModel> GetData()
     {
-        // TODO: Getting Unit enum value from a string in the JSON, instead of
-        //  a numerical representation 
+        var jsonOptions = new JsonSerializerOptions
+        {
+            Converters = { new JsonStringEnumConverter() }
+        };
+
         var fileStream = File.ReadAllText(_filePath);
-        var items = JsonSerializer.Deserialize<List<IModel>>(fileStream);
+        var items = JsonSerializer.Deserialize<List<IModel>>(fileStream, jsonOptions);
         return items.AsEnumerable();
     }
 }

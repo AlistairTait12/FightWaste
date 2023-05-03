@@ -1,9 +1,11 @@
 ﻿using FightWasteConsole.DataAccess;
 using FightWasteConsole.Models;
 using FightWasteConsole.Repositories;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FightWasteConsoleTests.Repositories;
 
+[ExcludeFromCodeCoverage]
 [TestFixture]
 public class MealRepositoryTests
 {
