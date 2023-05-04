@@ -1,6 +1,5 @@
 ﻿using FightWasteConsole.ConsoleWrapper;
 using FightWasteConsole.Repositories;
-using System.Reflection.Emit;
 
 namespace FightWasteConsole.Commands;
 
