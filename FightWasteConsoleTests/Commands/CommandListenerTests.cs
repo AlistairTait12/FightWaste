@@ -1,4 +1,5 @@
-﻿using FightWasteConsole.Commands;
+﻿using FightWasteConsole.CommandArguments;
+using FightWasteConsole.Commands;
 using FightWasteConsole.ConsoleWrapper;
 using System.Diagnostics.CodeAnalysis;
 
@@ -38,7 +39,7 @@ public class CommandListenerTests
         _commandListener.Listen();
 
         // Assert
-        A.CallTo(() => _fakeCommand.Execute()).MustHaveHappenedOnceExactly();
+        A.CallTo(() => _fakeCommand.Execute(A<List<Argument>>.Ignored)).MustHaveHappenedOnceExactly();
         A.CallTo(() => _consoleWrapper.Read()).MustHaveHappenedTwiceExactly();
     }
 
@@ -53,7 +54,7 @@ public class CommandListenerTests
         _commandListener.Listen();
 
         // Assert
-        A.CallTo(() => _fakeCommand.Execute()).MustHaveHappenedOnceExactly();
+        A.CallTo(() => _fakeCommand.Execute(A<List<Argument>>.Ignored)).MustHaveHappenedOnceExactly();
         A.CallTo(() => _consoleWrapper.Read()).MustHaveHappenedTwiceExactly();
     }
 
@@ -68,7 +69,8 @@ public class CommandListenerTests
         _commandListener.Listen();
 
         // Assert
-        A.CallTo(() => _fakeCommand.Execute()).MustNotHaveHappened();
+        A.CallTo(() => _fakeCommand.Execute(A<List<Argument>>.Ignored))
+            .MustNotHaveHappened();
         A.CallTo(() => _consoleWrapper.Warn("command `lawrence` not found")).MustHaveHappenedOnceExactly();
         A.CallTo(() => _consoleWrapper.Read()).MustHaveHappenedTwiceExactly();
     }
@@ -88,7 +90,8 @@ public class CommandListenerTests
         _commandListener.Listen();
 
         // Assert
-        A.CallTo(() => fakeCommands.ElementAt(1).Execute()).MustHaveHappenedOnceExactly();
+        A.CallTo(() => fakeCommands.ElementAt(1).Execute(A<List<Argument>>.Ignored))
+            .MustHaveHappenedOnceExactly();
     }
 
     [Test]
@@ -106,9 +109,9 @@ public class CommandListenerTests
         _commandListener.Listen();
 
         // Assert
-        A.CallTo(() => fakeCommands.ElementAt(3).Execute()).MustHaveHappenedOnceExactly();
+        A.CallTo(() => fakeCommands.ElementAt(3).Execute(A<List<Argument>>.Ignored)).MustHaveHappenedOnceExactly();
         A.CallTo(() => _consoleWrapper.Warn("command `crahh` not found")).MustHaveHappenedOnceExactly();
-        A.CallTo(() => fakeCommands.ElementAt(1).Execute()).MustHaveHappenedOnceExactly();
+        A.CallTo(() => fakeCommands.ElementAt(1).Execute(A<List<Argument>>.Ignored)).MustHaveHappenedOnceExactly();
     }
 
     private static List<ICommand> GetMultipleCommands()

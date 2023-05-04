@@ -20,17 +20,24 @@ public class CommandListener : ICommandListener
         while (!string.Equals(userInput = _consoleWrapper.Read(), "exit",
             StringComparison.InvariantCultureIgnoreCase))
         {
-            var selectedCommand = GetCommand(userInput);
+            var target = ExtractCommandString(userInput);
+
+            var selectedCommand = GetCommand(target);
 
             if (selectedCommand is not null)
             {
-                selectedCommand.Execute();
+                selectedCommand.Execute(null!);
             }
             else
             {
                 _consoleWrapper.Warn($"command `{userInput}` not found");
             }
         }
+    }
+
+    private string ExtractCommandString(string fullString)
+    {
+        return fullString.Split(' ').ElementAt(0);
     }
 
     private ICommand GetCommand(string commandName) =>

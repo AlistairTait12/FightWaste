@@ -1,7 +1,9 @@
-﻿namespace FightWasteConsole.Commands;
+﻿using FightWasteConsole.CommandArguments;
+
+namespace FightWasteConsole.Commands;
 
 public interface ICommand
 {
     IEnumerable<string> Aliases { get; }
-    void Execute();
+    void Execute(List<Argument> arguments);
 }
