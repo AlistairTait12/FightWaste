@@ -45,24 +45,14 @@ public class IngredientsListProcessorTests
         _processor.ProduceIngredientsList();
 
         // Assert
-        A.CallTo(() => _consoleWrapper.Write("Please enter your meals for the week")).MustHaveHappenedOnceExactly();
-        A.CallTo(() => _aggregator.CombineIngredients(A<IEnumerable<IngredientQuantityModel>>.Ignored)).MustHaveHappenedOnceExactly();
-        A.CallTo(() => _outputter.GetListAsCollection(A<List<IngredientQuantityModel>>.Ignored)).MustHaveHappenedOnceExactly();
-        A.CallTo(() => _writer.WriteIngredientsToFile(A<IEnumerable<IngredientQuantityModel>>.Ignored)).MustHaveHappenedOnceExactly();
-    }
-
-    [Test]
-    public void ProduceIngredientsListWhenUserEntersShowAllDisplaysAllMeals()
-    {
-        // Arrange
-        A.CallTo(() => _consoleWrapper.Read()).Returns("End");
-        A.CallTo(() => _consoleWrapper.Read()).ReturnsNextFromSequence("showall");
-
-        // Act
-        _processor.ProduceIngredientsList();
-
-        // Assert
-        A.CallTo(() => _consoleWrapper.Write("Test Meal\r\nAverage Omelette"))
+        A.CallTo(() => _consoleWrapper
+            .Write("Please enter your meals for the week,\r\nenter `end` when you are finished"))
+            .MustHaveHappenedOnceExactly();
+        A.CallTo(() => _aggregator.CombineIngredients(A<IEnumerable<IngredientQuantityModel>>.Ignored))
+            .MustHaveHappenedOnceExactly();
+        A.CallTo(() => _outputter.GetListAsCollection(A<List<IngredientQuantityModel>>.Ignored))
+            .MustHaveHappenedOnceExactly();
+        A.CallTo(() => _writer.WriteIngredientsToFile(A<IEnumerable<IngredientQuantityModel>>.Ignored))
             .MustHaveHappenedOnceExactly();
     }
 

@@ -3,7 +3,12 @@
 public class CommandStringConstants
 {
     // Reserved for New Ingredients List Command
-    public const string NEWINGREDIENTSLIST = "newingredientslist";
-    public const string NEWLIST = "newlist";
-    public const string NEW = "new";
+    public const string NEWINGREDIENTSLIST = "NEWINGREDIENTSLIST";
+    public const string NEWLIST = "NEWLIST";
+    public const string NEW = "NEW";
+
+    // Reserved for show all meals command
+    public const string SHOWALL = "SHOWALL";
+    public const string SHOWALLMEALS = "SHOWALLMEALS";
+    public const string SA = "SA";
 }
