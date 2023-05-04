@@ -15,9 +15,7 @@ public class ArgumentListBuilderTests
         _builder = new ArgumentListBuilder();
     }
 
-    // TODO It gives list of arguments when given correct format
     // TODO It throws error when given incorrect format i.e., -n is valid but --n is not
-    // TODO It reads arguments not enclosed in '' as multiple argument values
     // TODO It reads arguments enclosed in '' as a single argument value
 
     [Test]
