@@ -15,25 +15,26 @@ public class CommandListener : ICommandListener
 
     public void Listen()
     {
-        var commandName = _consoleWrapper.Read();
+        string userInput;
 
-        while (!string.Equals(commandName, "exit",
+        while (!string.Equals(userInput = _consoleWrapper.Read(), "exit",
             StringComparison.InvariantCultureIgnoreCase))
         {
-            var selectedCommand = _commands.FirstOrDefault(command => command.Aliases
-                .Select(alias => alias.ToLower())
-                .Contains(commandName.ToLower()));
+            var selectedCommand = GetCommand(userInput);
 
-            if (selectedCommand != null)
+            if (selectedCommand is not null)
             {
                 selectedCommand.Execute();
             }
             else
             {
-                _consoleWrapper.Warn($"command `{commandName}` not found");
+                _consoleWrapper.Warn($"command `{userInput}` not found");
             }
-
-            commandName = _consoleWrapper.Read();
         }
     }
+
+    private ICommand GetCommand(string commandName) =>
+        _commands.FirstOrDefault(command => command.Aliases
+                .Select(alias => alias.ToLower())
+                .Contains(commandName.ToLower()))!;
 }
