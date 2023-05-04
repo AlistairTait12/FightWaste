@@ -33,7 +33,7 @@ public class IngredientsListProcessor : IIngredientsListProcessor
     {
         var allMeals = new List<MealModel>();
 
-        _consoleWrapper.Write("Please enter your meals for the week");
+        _consoleWrapper.Write("Please enter your meals for the week,\r\nenter `end` when you are finished");
         var userFinished = false;
 
         while (!userFinished)
@@ -45,13 +45,6 @@ public class IngredientsListProcessor : IIngredientsListProcessor
             {
                 _consoleWrapper.Write("Meal selection complete, compiling list of ingredients");
                 break;
-            }
-
-            if (string.Equals("showall", userResponse, StringComparison.InvariantCultureIgnoreCase))
-            {
-                var meals = string.Join("\r\n", _repository.GetAll().Select(meal => meal.Name));
-                _consoleWrapper.Write(meals);
-                continue;
             }
 
             var mealToAdd = _repository.GetMealByName(userResponse);
