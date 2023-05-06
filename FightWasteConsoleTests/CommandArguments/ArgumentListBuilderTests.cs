@@ -15,8 +15,6 @@ public class ArgumentListBuilderTests
         _builder = new ArgumentListBuilder();
     }
 
-    // TODO It throws error when given incorrect format i.e., -n is valid but --n is not
-    // TODO It reads arguments enclosed in '' as a single argument value
 
     [Test]
     public void BuildReturnsListOfOneArgumentWhenGivenASingleArgument()
@@ -98,6 +96,26 @@ public class ArgumentListBuilderTests
 
         // Act
         var actual = _builder.Build("findmeal -name 'Sunday Roast'");
+
+        // Assert
+        actual.Should().BeEquivalentTo(expected);
+    }
+
+    [Test]
+    public void BuildReadsArgumentValuesWhenTheyAreBothEnclosedInQuotesAndNotEnclosed()
+    {
+        // Arrange
+        var expected = new List<Argument>
+        {
+            new()
+            {
+                ArgumentName = "names",
+                ArgumentValues = new() { "Carrot", "Awful rubbery leeks", "onion" }
+            }
+        };
+
+        // Act
+        var actual = _builder.Build("addstuff -names Carrot 'Awful rubbery leeks' onion");
 
         // Assert
         actual.Should().BeEquivalentTo(expected);
