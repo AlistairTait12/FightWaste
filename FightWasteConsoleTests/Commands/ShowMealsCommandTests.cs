@@ -22,10 +22,10 @@ public class ShowMealsCommandTests
         _mealRepository = A.Fake<IMealRepository>();
         A.CallTo(() => _mealRepository.GetAll()).Returns(GetMeals());
         _consoleWrapper = A.Fake<IConsoleWrapper>();
-        _showMealsCommand = new ShowMealsCommand();
+
+        _showMealsCommand = new ShowMealsCommand(_mealRepository, _consoleWrapper);
     }
 
-    // TODO showmeals -number 3 displays 3 when there are at least 3
     [Test]
     public void ExecuteWhenGivenArgumentValueOf3Returns3MealsWhenThereAreAtLeast3InDatabase()
     {
@@ -43,11 +43,10 @@ public class ShowMealsCommandTests
         _showMealsCommand.Execute(arguments);
 
         // Assert
-        A.CallTo(() => _consoleWrapper.Write("Sushi\r\nOmelette\r\nMeringue")).MustHaveHappenedOnceExactly();
+        A.CallTo(() => _consoleWrapper.Write("Sushi\r\nOmelette\r\nRice\r\n")).MustHaveHappenedOnceExactly();
         A.CallTo(() => _mealRepository.GetAll()).MustHaveHappenedOnceExactly();
     }
 
-    // TODO showmeals -n 3 displays 3
     [Test]
     public void ExecuteWhenPassedArgumentNameOfNReturnsMealNamesAsNIsAliasForNumberArg()
     {
@@ -65,12 +64,10 @@ public class ShowMealsCommandTests
         _showMealsCommand.Execute(arguments);
 
         // Assert
-        A.CallTo(() => _consoleWrapper.Write("Sushi\r\nOmelette\r\nMeringue")).MustHaveHappenedOnceExactly();
+        A.CallTo(() => _consoleWrapper.Write("Sushi\r\nOmelette\r\nRice\r\n")).MustHaveHappenedOnceExactly();
         A.CallTo(() => _mealRepository.GetAll()).MustHaveHappenedOnceExactly();
     }
 
-    // TODO showmeals -n 7 only shows 5 when there are maximum of 5 in the datastore and warns user
-    //      max meals shown
     [Test]
     public void ExecuteWhenGivenMoreMealsThanIsInDataBaseWritesOutMaxNumberOfMealsAndWarnsUser()
     {
@@ -85,18 +82,18 @@ public class ShowMealsCommandTests
         };
 
         var sb = new StringBuilder();
-        sb.AppendLine("Showing maximum (5) meals in database");
         sb.AppendLine("Sushi");
         sb.AppendLine("Omelette");
         sb.AppendLine("Rice");
         sb.AppendLine("Jelly");
-        sb.Append("Meringue");
+        sb.AppendLine("Meringue");
         var expectedMessage = sb.ToString();
 
         // Act
         _showMealsCommand.Execute(arguments);
 
         // Assert
+        A.CallTo(() => _consoleWrapper.Warn("Showing maximum (5) meals in database")).MustHaveHappenedOnceExactly();
         A.CallTo(() => _consoleWrapper.Write(expectedMessage)).MustHaveHappenedOnceExactly();
         A.CallTo(() => _mealRepository.GetAll()).MustHaveHappenedOnceExactly();
     }
