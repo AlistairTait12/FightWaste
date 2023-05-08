@@ -18,6 +18,8 @@ internal class CommandContainer
     {
         new NewIngredientsListCommand(_serviceProvider.GetRequiredService<IIngredientsListProcessor>()),
         new ShowAllMealsCommand(_serviceProvider.GetRequiredService<IMealRepository>(),
-            _serviceProvider.GetRequiredService<IConsoleWrapper>())
+            _serviceProvider.GetRequiredService<IConsoleWrapper>()),
+        new ShowMealsCommand(_serviceProvider.GetRequiredService<IMealRepository>(),
+            _serviceProvider.GetRequiredService<IConsoleWrapper>()),
     };
 }

@@ -13,14 +13,16 @@ public class CommandListenerTests
     private List<ICommand> _commands;
     private ICommand _fakeCommand;
     private IConsoleWrapper _consoleWrapper;
+    private IArgumentListBuilder _argumentListBuilder;
 
     [SetUp]
     public void SetUp()
     {
         _commands = new List<ICommand>();
         _consoleWrapper = A.Fake<IConsoleWrapper>();
+        _argumentListBuilder = A.Fake<ArgumentListBuilder>();
 
-        _commandListener = new CommandListener(_commands, _consoleWrapper);
+        _commandListener = new CommandListener(_commands, _consoleWrapper, _argumentListBuilder);
         _fakeCommand = A.Fake<ICommand>();
 
         A.CallTo(() => _fakeCommand.Aliases).Returns(new List<string> { "fake", "f" });
@@ -84,7 +86,7 @@ public class CommandListenerTests
         A.CallTo(() => _consoleWrapper.Read()).Returns("exit");
         A.CallTo(() => _consoleWrapper.Read()).ReturnsNextFromSequence("dt");
 
-        _commandListener = new CommandListener(fakeCommands, _consoleWrapper);
+        _commandListener = new CommandListener(fakeCommands, _consoleWrapper, _argumentListBuilder);
 
         // Act
         _commandListener.Listen();
@@ -103,7 +105,7 @@ public class CommandListenerTests
         A.CallTo(() => _consoleWrapper.Read()).Returns("exit");
         A.CallTo(() => _consoleWrapper.Read()).ReturnsNextFromSequence("stvn", "crahh", "dothing");
 
-        _commandListener = new CommandListener(fakeCommands, _consoleWrapper);
+        _commandListener = new CommandListener(fakeCommands, _consoleWrapper, _argumentListBuilder);
 
         // Act
         _commandListener.Listen();

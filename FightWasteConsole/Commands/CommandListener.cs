@@ -1,4 +1,5 @@
-﻿using FightWasteConsole.ConsoleWrapper;
+﻿using FightWasteConsole.CommandArguments;
+using FightWasteConsole.ConsoleWrapper;
 
 namespace FightWasteConsole.Commands;
 
@@ -6,11 +7,14 @@ public class CommandListener : ICommandListener
 {
     private readonly IEnumerable<ICommand> _commands;
     private readonly IConsoleWrapper _consoleWrapper;
+    private readonly IArgumentListBuilder _argumentBuilder;
 
-    public CommandListener(IEnumerable<ICommand> commands, IConsoleWrapper consoleWrapper)
+    public CommandListener(IEnumerable<ICommand> commands, IConsoleWrapper consoleWrapper,
+        IArgumentListBuilder argumentBuilder)
     {
         _commands = commands;
         _consoleWrapper = consoleWrapper;
+        _argumentBuilder = argumentBuilder;
     }
 
     public void Listen()
@@ -21,12 +25,13 @@ public class CommandListener : ICommandListener
             StringComparison.InvariantCultureIgnoreCase))
         {
             var target = ExtractCommandString(userInput);
+            var arguments = _argumentBuilder.Build(userInput);
 
             var selectedCommand = GetCommand(target);
 
             if (selectedCommand is not null)
             {
-                selectedCommand.Execute(null!);
+                selectedCommand.Execute(arguments);
             }
             else
             {
