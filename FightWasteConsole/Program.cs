@@ -1,5 +1,6 @@
 ﻿using FightWasteConsole;
 using FightWasteConsole.Aggregation;
+using FightWasteConsole.CommandArguments;
 using FightWasteConsole.Commands;
 using FightWasteConsole.ConsoleWrapper;
 using FightWasteConsole.DataAccess;
@@ -34,11 +35,13 @@ IHost host = Host.CreateDefaultBuilder(args)
             .AddTransient<IFileWriter, TableFileWriter>()
             .AddTransient<IIngredientAggregator, IngredientAggregator>()
             .AddTransient<IDataAccess<MealModel>, JsonDataAccess<MealModel>>()
+            .AddTransient<IArgumentListBuilder, ArgumentListBuilder>()
             .AddTransient<ICommandListener>(services =>
             {
                 var container = new CommandContainer(services);
                 return new CommandListener(container.GetAllCommands(),
-                    services.GetRequiredService<IConsoleWrapper>());
+                    services.GetRequiredService<IConsoleWrapper>(),
+                    services.GetRequiredService<IArgumentListBuilder>());
             });
     }).Build();
 

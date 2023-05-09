@@ -1,4 +1,5 @@
-﻿using FightWasteConsole.IngredientsListProcessing;
+﻿using FightWasteConsole.CommandArguments;
+using FightWasteConsole.IngredientsListProcessing;
 
 namespace FightWasteConsole.Commands;
 
@@ -18,7 +19,7 @@ public class NewIngredientsListCommand : ICommand
         CommandStringConstants.NEW
     };
 
-    public void Execute()
+    public void Execute(List<Argument> arguments = null!)
     {
         _processor.ProduceIngredientsList();
     }

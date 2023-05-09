@@ -1,4 +1,5 @@
-﻿using FightWasteConsole.ConsoleWrapper;
+﻿using FightWasteConsole.CommandArguments;
+using FightWasteConsole.ConsoleWrapper;
 using FightWasteConsole.Repositories;
 
 namespace FightWasteConsole.Commands;
@@ -21,7 +22,7 @@ public class ShowAllMealsCommand : ICommand
         CommandStringConstants.SA
     };
 
-    public void Execute()
+    public void Execute(List<Argument> arguments = null!)
     {
         _consoleWrapper.Write(GetOutput());
     }

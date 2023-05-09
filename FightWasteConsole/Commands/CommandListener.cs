@@ -1,4 +1,5 @@
-﻿using FightWasteConsole.ConsoleWrapper;
+﻿using FightWasteConsole.CommandArguments;
+using FightWasteConsole.ConsoleWrapper;
 
 namespace FightWasteConsole.Commands;
 
@@ -6,34 +7,46 @@ public class CommandListener : ICommandListener
 {
     private readonly IEnumerable<ICommand> _commands;
     private readonly IConsoleWrapper _consoleWrapper;
+    private readonly IArgumentListBuilder _argumentBuilder;
 
-    public CommandListener(IEnumerable<ICommand> commands, IConsoleWrapper consoleWrapper)
+    public CommandListener(IEnumerable<ICommand> commands, IConsoleWrapper consoleWrapper,
+        IArgumentListBuilder argumentBuilder)
     {
         _commands = commands;
         _consoleWrapper = consoleWrapper;
+        _argumentBuilder = argumentBuilder;
     }
 
     public void Listen()
     {
-        var commandName = _consoleWrapper.Read();
+        string userInput;
 
-        while (!string.Equals(commandName, "exit",
+        while (!string.Equals(userInput = _consoleWrapper.Read(), "exit",
             StringComparison.InvariantCultureIgnoreCase))
         {
-            var selectedCommand = _commands.FirstOrDefault(command => command.Aliases
-                .Select(alias => alias.ToLower())
-                .Contains(commandName.ToLower()));
+            var target = ExtractCommandString(userInput);
+            var arguments = _argumentBuilder.Build(userInput);
 
-            if (selectedCommand != null)
+            var selectedCommand = GetCommand(target);
+
+            if (selectedCommand is not null)
             {
-                selectedCommand.Execute();
+                selectedCommand.Execute(arguments);
             }
             else
             {
-                _consoleWrapper.Warn($"command `{commandName}` not found");
+                _consoleWrapper.Warn($"command `{userInput}` not found");
             }
-
-            commandName = _consoleWrapper.Read();
         }
     }
+
+    private string ExtractCommandString(string fullString)
+    {
+        return fullString.Split(' ').ElementAt(0);
+    }
+
+    private ICommand GetCommand(string commandName) =>
+        _commands.FirstOrDefault(command => command.Aliases
+                .Select(alias => alias.ToLower())
+                .Contains(commandName.ToLower()))!;
 }
