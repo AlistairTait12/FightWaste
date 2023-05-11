@@ -48,7 +48,11 @@ public class ArgumentListBuilder : IArgumentListBuilder
         var addToSubList = false;
         for (var i = 0; i < words.Length; i++)
         {
-            if (words[i].StartsWith("'"))
+            if (words[i].StartsWith("'") && words[i].EndsWith("'"))
+            {
+                finalList.Add(words[i].Replace("'", string.Empty));
+            }
+            else if (words[i].StartsWith("'"))
             {
                 sublist.Add(words[i]);
                 addToSubList = true;

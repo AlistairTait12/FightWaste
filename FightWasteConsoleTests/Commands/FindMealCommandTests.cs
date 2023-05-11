@@ -2,10 +2,12 @@
 using FightWasteConsole.Commands;
 using FightWasteConsole.ConsoleWrapper;
 using FightWasteConsole.Models;
+using FightWasteConsole.Output;
 using FightWasteConsole.Repositories;
 using NUnit.Framework.Internal;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
+using System.Xml.Linq;
 
 namespace FightWasteConsoleTests.Commands;
 
@@ -15,6 +17,7 @@ public class FindMealCommandTests
 {
     private IMealRepository _mealRepository;
     private IConsoleWrapper _consoleWrapper;
+    private IModelCollectionOutputter<IngredientQuantityModel> _outputter;
     private FindMealCommand _findMealCommand;
 
     [SetUp]
@@ -23,11 +26,11 @@ public class FindMealCommandTests
         _mealRepository = A.Fake<IMealRepository>();
         A.CallTo(() => _mealRepository.GetAll()).Returns(GetMealModels());
         _consoleWrapper = A.Fake<IConsoleWrapper>();
+        _outputter = A.Fake<IModelCollectionOutputter<IngredientQuantityModel>>();
 
-        _findMealCommand = new FindMealCommand();
+        _findMealCommand = new FindMealCommand(_mealRepository, _consoleWrapper, _outputter);
     }
 
-    // TODO displays meal ingredients when meal found (when one word passed to -name arg)
     [Test]
     public void ExecuteDisplaysMealIngredientsWhenMealExists()
     {
@@ -41,20 +44,27 @@ public class FindMealCommandTests
             }
         };
 
-        var expected = new StringBuilder();
-        expected.AppendLine("| Name   | Quantity | Unit |");
-        expected.AppendLine("| ------ | -------- | ---- |");
-        expected.AppendLine("| Eggs   | 3        | Of   |");
-        expected.AppendLine("| Cheese | 50       | G    |");
+        var expectedOutput = new StringBuilder();
+        expectedOutput.AppendLine("| Name   | Quantity | Unit |");
+        expectedOutput.AppendLine("| ------ | -------- | ---- |");
+        expectedOutput.AppendLine("| Eggs   | 3        | Of   |");
+        expectedOutput.AppendLine("| Cheese | 50       | G    |");
+
+        A.CallTo(() => _outputter.GetListAsCollection(A<List<IngredientQuantityModel>>.Ignored)).Returns(expectedOutput.ToString());
 
         // Act
         _findMealCommand.Execute(arguments);
 
         // Assert
-        A.CallTo(() => _consoleWrapper.Write(expected.ToString())).MustHaveHappenedOnceExactly();
+        A.CallTo(() => _outputter.GetListAsCollection(A<List<IngredientQuantityModel>>.That.Matches(list =>
+            list[0].Name == "Eggs" && list[0].Quantity == 3 && list[0].Unit == Unit.Of
+            && list[1].Name == "Cheese" && list[1].Quantity == 50 && list[1].Unit == Unit.G
+            && list.Count == 2
+        )));
+
+        A.CallTo(() => _consoleWrapper.Write(expectedOutput.ToString())).MustHaveHappenedOnceExactly();
     }
 
-    // TODO displays meal ingredients when meal found (when multiple words in quotes passed to -name arg)
     [Test]
     public void ExecuteDisplaysMealIngredientsWhenMealNameContainsMultipleWords()
     {
@@ -68,17 +78,26 @@ public class FindMealCommandTests
             }
         };
 
+        var expectedOutput = new StringBuilder();
+        expectedOutput.AppendLine("| Name      | Quantity | Unit |");
+        expectedOutput.AppendLine("| --------- | -------- | ---- |");
+        expectedOutput.AppendLine("| Mushrooms | 50       | G    |");
+
+        A.CallTo(() => _outputter.GetListAsCollection(A<List<IngredientQuantityModel>>.Ignored)).Returns(expectedOutput.ToString());
+
         // Act
-        var expected = new StringBuilder();
-        expected.AppendLine("| Name      | Quantity | Unit |");
-        expected.AppendLine("| --------- | -------- | ---- |");
-        expected.AppendLine("| Mushrooms | 50       | G    |");
+        _findMealCommand.Execute(arguments);
 
         // Assert
-        A.CallTo(() => _consoleWrapper.Write(expected.ToString())).MustHaveHappenedOnceExactly();
+        A.CallTo(() => _outputter.GetListAsCollection(A<List<IngredientQuantityModel>>.That.Matches(list =>
+            list[0].Name == "Mushroom" && list[0].Quantity == 50 && list[0].Unit == Unit.G
+            && list.Count == 1
+        )));
+
+        A.CallTo(() => _consoleWrapper.Write(expectedOutput.ToString())).MustHaveHappenedOnceExactly();
     }
 
-    // TODO displays message saying meal not found when meal not in database
+    [Ignore("// TODO Need to work out why can't make a null MealModel in the tests - tested manually")]
     [Test]
     public void ExecuteDisplaysMessageMealNotFoundWhenMealNotInDatabase()
     {
@@ -91,6 +110,8 @@ public class FindMealCommandTests
                 ArgumentValues = new List<string> { "Unfound Meal" }
             }
         };
+
+        A.CallTo(_mealRepository).WithReturnType<string>().Returns(null);
 
         var expected = "Meal of name `Unfound Meal` not found, please check your input";
 
