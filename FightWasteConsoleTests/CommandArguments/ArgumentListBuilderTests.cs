@@ -127,4 +127,24 @@ public class ArgumentListBuilderTests
         // Assert
         Assert.Throws<InvalidOperationException>(() => _builder.Build("findmeal --name 'Sunday Roast'"));
     }
+
+    [Test]
+    public void BuildReturnsSingleWordWrappedInQuotesAsStringWithoutQuotes()
+    {
+        // Arrange
+        var expected = new List<Argument>
+        {
+            new()
+            {
+                ArgumentName = "name",
+                ArgumentValues = new() { "omelette" }
+            }
+        };
+
+        // Act
+        var actual = _builder.Build("findmeal -name 'omelette'");
+
+        // Assert
+        actual.Should().BeEquivalentTo(expected);
+    }
 }

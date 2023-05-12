@@ -1,5 +1,7 @@
 ﻿using FightWasteConsole.ConsoleWrapper;
 using FightWasteConsole.IngredientsListProcessing;
+using FightWasteConsole.Models;
+using FightWasteConsole.Output;
 using FightWasteConsole.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,5 +23,8 @@ internal class CommandContainer
             _serviceProvider.GetRequiredService<IConsoleWrapper>()),
         new ShowMealsCommand(_serviceProvider.GetRequiredService<IMealRepository>(),
             _serviceProvider.GetRequiredService<IConsoleWrapper>()),
+        new FindMealCommand(_serviceProvider.GetRequiredService<IMealRepository>(),
+            _serviceProvider.GetRequiredService<IConsoleWrapper>(),
+            _serviceProvider.GetRequiredService<IModelCollectionOutputter<IngredientQuantityModel>>())
     };
 }
