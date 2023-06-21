@@ -1,5 +1,6 @@
 ﻿using FightWasteConsole.CommandArguments;
 using FightWasteConsole.ConsoleWrapper;
+using System.Diagnostics;
 
 namespace FightWasteConsole.Commands;
 
@@ -31,7 +32,10 @@ public class CommandListener : ICommandListener
 
             if (selectedCommand is not null)
             {
+                var stopWatch = new Stopwatch();
+                stopWatch.Start();
                 selectedCommand.Execute(arguments);
+                _consoleWrapper.Confirm($"Command {target} ran in {stopWatch.ElapsedMilliseconds}ms\r\n");
             }
             else
             {
@@ -40,13 +44,13 @@ public class CommandListener : ICommandListener
         }
     }
 
-    private string ExtractCommandString(string fullString)
-    {
-        return fullString.Split(' ').ElementAt(0);
-    }
-
     private ICommand GetCommand(string commandName) =>
         _commands.FirstOrDefault(command => command.Aliases
                 .Select(alias => alias.ToLower())
                 .Contains(commandName.ToLower()))!;
+
+    private static string ExtractCommandString(string fullString)
+    {
+        return fullString.Split(' ').ElementAt(0);
+    }
 }
